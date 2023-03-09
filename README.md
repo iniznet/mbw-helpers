@@ -8,6 +8,7 @@ Recommended to be used alongside with vscode as your IDE, it will help you a lot
 ## TODO
 Not all of the todos are going to be worked on, most of them are just ideas. I will only work on the ones that I need for my mod or important ones. If you want to help, feel free to make a pull request.
 
+- [x] Dialog builder
 - [ ] Tuple builder (In progress)
 - [ ] Animation builder
 - [ ] Faction builder
