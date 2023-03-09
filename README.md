@@ -1,6 +1,8 @@
 # mbw-helpers
 Collections of builder helpers to help you develop a mb: warband mod and make code more readable
 
+Requires python 2.7 or above.
+
 Recommended to be used alongside with vscode as your IDE, it will help you a lot.
 
 ## TODO
