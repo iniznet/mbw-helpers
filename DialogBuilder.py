@@ -314,7 +314,7 @@ class DialogBuilder:
         """
         self.partner([anyone, plyr])
         self.pre_state(self.pre_state_reply_string)
-        self.talk(text)
+        self.dialog(text)
         self.post_state(poststate)
         
         if append:
