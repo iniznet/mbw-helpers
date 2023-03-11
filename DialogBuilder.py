@@ -121,6 +121,9 @@ class DialogBuilder:
         Examples:
             >>> DialogBuilder().partner([anyone, plyr])
         """
+        if partner == plyr:
+            partner = [anyone, plyr]
+
         self.partner_bitwise = partner
 
         if type(partner) == list:
