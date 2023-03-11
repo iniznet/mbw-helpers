@@ -22,7 +22,7 @@ dialogs = [
             (le,"$talk_context",tc_siege_commander),
         ])
         .dialog("Do I know you?")
-        .post_state("lord_meet_neutral")
+        .post_state("lord_meet_neutral") # if you don't pass the post_state it will automatically set it to "close_window"
         .build() # you don't need to call .condition() or .consequence() if your dialog doesn't have any, they automatically return an empty list
     # let's build the dialog responses
     DialogBuilder()
@@ -43,23 +43,29 @@ dialogs = [
 
 dialogs.extend( # append [[dialog], [dialog], [dialog]...] from .done() to the dialogs list variable
     DialogBuilder()
-        .partner(anyone)
-        .state("start", "lord_start")
-        .condition([
-            (troop_slot_eq,"$g_talk_troop",slot_troop_occupation, slto_kingdom_hero),
-            (eq, "$g_talk_troop_met", 0),
-            (ge, "$g_talk_troop_faction_relation", 0),
-            (le,"$talk_context",tc_siege_commander),
-        ])
-        .dialog("Do I know you?")
-        .append() # append to list of dialogs property/variable within the builder itself
-        # start building player responses
-        .replies_start() # if you don't pass any parameter, it will automatically set the post_state of the previous dialog as the pre_state of the player response. It also automatically set the partner to [anyone, plyr]
-            #.condition()
-            .reply("I am {playername}.", "lord_intro") # dialog and post_state, if you don't pass the post_state it will automatically set it to "close_window"
-            #.consequence() # Pass False to .reply() third parameter to enable consequence
-            .reply("My name is {playername}. At your service sir.", "lord_intro")
-        .replies_end() # end building player responses, it doesn't nothing and only used for readability
+        .start() # optional, it only used to make the code more readable and doesn't do anything
+            .partner(anyone).partner(anyone)
+            .state("start", "lord_start")
+            .condition([
+                (troop_slot_eq,"$g_talk_troop",slot_troop_occupation, slto_kingdom_hero),
+                (eq, "$g_talk_troop_met", 0),
+                (ge, "$g_talk_troop_faction_relation", 0),
+                (le,"$talk_context",tc_siege_commander),
+            ])
+            .dialog("Do I know you?")
+            .append() # append to list of dialogs property/variable within the builder itself
+            # start building player responses
+            .replies_start() # if you don't pass any parameter, it will automatically set the post_state of the previous dialog as the pre_state of the player response. It also automatically set the partner to [anyone, plyr]
+                #.condition()
+                .reply("I am {playername}.", "lord_intro") # dialog and post_state, if you don't pass the post_state it will automatically set it to "close_window"
+                #.consequence() # Pass False to .reply() third parameter to enable consequence
+                .reply("My name is {playername}. At your service sir.", "lord_intro")
+            .replies_end() # end building player responses, it doesn't nothing and only used for readability
+        .end() # optional
+        .start() # optional
+            # a new dialog here, and maybe another player responses
+        .end() # optional
+        # and so on...
         .done() # return the list of dialogs: [[dialog], [dialog], [dialog]...]
 )
 ```

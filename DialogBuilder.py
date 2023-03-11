@@ -206,7 +206,7 @@ class DialogBuilder:
         self.dialog_string = text
         return self
     
-    def post_state(self, poststate):
+    def post_state(self, poststate = "close_window"):
         """
         Set the post-state for the dialog.
 
@@ -293,7 +293,7 @@ class DialogBuilder:
 
         return self
     
-    def reply(self, text, poststate = "", append = True):
+    def reply(self, text, poststate = "close_window", append = True):
         """
         Create a reply for the last dialog you created or passed poststate.
         Useful for readability when chaining multiple replies in a parent dialog.
