@@ -47,13 +47,11 @@ dialogs.append( # append [[dialog], [dialog], [dialog]...] from .done() to the d
         .state("start", "lord_start")
         .condition([
             (troop_slot_eq,"$g_talk_troop",slot_troop_occupation, slto_kingdom_hero),
-            (neq, "$g_talk_troop_met", 0),
-            (gt, "$g_time_since_last_talk", 24),
-            (gt, "$g_talk_troop_relation", 50),
-            (gt, "$g_talk_troop_faction_relation", 10),
+            (eq, "$g_talk_troop_met", 0),
+            (ge, "$g_talk_troop_faction_relation", 0),
             (le,"$talk_context",tc_siege_commander),
         ])
-        .dialog("If it isn't my brave champion, {playername}...")
+        .dialog("Do I know you?")
         .append() # append to list of dialogs property/variable within the builder itself
         # start building player responses
         .replies_start() # if you don't pass any parameter, it will automatically set the post_state of the previous dialog as the pre_state of the player response. It also automatically set the partner to [anyone, plyr]
