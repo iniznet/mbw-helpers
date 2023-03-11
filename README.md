@@ -39,7 +39,7 @@ dialogs = [
 ]
 
 # From that, I guess you know how to build another dialog and it's responses.
-# That if you're using python 2.7, and standard mod development workflow. In modern development workflow, you can't use them inside the dialogs list, but, in exchange you can do even better:
+# That if you're using python 2.7, and standard mod development workflow. In modern development workflow, you can't use below inside the dialogs list, but, in exchange you can do even better:
 
 dialogs.extend( # append [[dialog], [dialog], [dialog]...] from .done() to the dialogs list variable
     DialogBuilder()
