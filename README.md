@@ -73,31 +73,31 @@ dialogs.extend( # append [[dialog], [dialog], [dialog]...] from .done() to the d
 ## TODO
 Not all of the todos are going to be worked on, most of them are just ideas. I will only work on the ones that I need for my mod or important ones. If you want to help, feel free to make a pull request.
 
-- [x] Dialog builder
-- [ ] Tuple Operation builder (In progress)
+- [x] Dialog builder*
+- [ ] Tuple Operation builder* (In progress)
 - [ ] Animation builder
-- [ ] Faction builder
+- [ ] Faction builder*
 - [ ] Game Menu builder
 - [ ] Info Page builder
-- [ ] Item builder
+- [ ] Item builder*
 - [ ] Map Icon builder
 - [ ] Mesh builder
 - [ ] Mission Template builder
 - [ ] Music builder
 - [ ] Particle System builder
-- [ ] Party Builder
-- [ ] Party Template builder
+- [ ] Party Builder*
+- [ ] Party Template builder*
 - [ ] Postfx builder
 - [ ] Presentation builder
 - [ ] Quest builder
 - [ ] Scene Prop builder
 - [ ] Scene builder
-- [ ] Script builder
+- [ ] Script builder*
 - [ ] Simple Trigger builder
 - [ ] Skill builder
 - [ ] Skin builder
 - [ ] Sound builder
-- [ ] String Table builder
+- [ ] String Table builder*
 - [ ] Tableau Material builder
 - [ ] Trigger builder
 - [ ] Troop builder
