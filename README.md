@@ -44,7 +44,7 @@ dialogs = [
 dialogs.extend( # append [[dialog], [dialog], [dialog]...] from .done() to the dialogs list variable
     DialogBuilder()
         .start() # optional, it only used to make the code more readable and doesn't do anything
-            .partner(anyone).partner(anyone)
+            .partner(anyone)
             .state("start", "lord_start")
             .condition([
                 (troop_slot_eq,"$g_talk_troop",slot_troop_occupation, slto_kingdom_hero),
