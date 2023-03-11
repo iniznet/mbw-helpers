@@ -14,10 +14,11 @@ import os
 import sys
 sys.dont_write_bytecode = True
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from operator import or_
 from functools import reduce
-from _imports import *
+from _headers import *
 
 class DialogBuilder:
     dialogs = []
