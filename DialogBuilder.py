@@ -10,23 +10,110 @@
 # 5) Ending dialog-state : "ramun_introduce_1"
 # 6) Consequences : []
 
+import os
+import sys
+sys.dont_write_bytecode = True
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
 from operator import or_
 from functools import reduce
+from _imports import *
 
 class DialogBuilder:
+    dialogs = []
     partner_bitwise = None
     pre_state_string = None
+    pre_state_reply_string = None
     condition_tuples = []
     dialog_string = ""
     post_state_string = None
     consequence_tuples = []
+
+    def append(self, dialog = []):
+        """
+        Append a dialog to the list of dialogs and reset the builder.
+        If no dialog is passed, the current dialog is appended.
+
+        Args:
+            dialog (list): The dialog to append.
+
+        Returns:
+            DialogBuilder: The builder object.
+
+        Raises:
+            ValueError: If the dialog is set and is not a list.
+            ValueError: If the partner is not set.
+            ValueError: If the pre-state is not set.
+            ValueError: If the post-state is not set.
+            ValueError: If the dialog is not set.
+
+        Examples:
+            >>> DialogBuilder().append()
+        """
+        if dialog != [] and type(dialog) != list:
+            raise ValueError("dialog must be a list")
+
+        if self.partner_bitwise == None:
+            raise ValueError("partner must be set")
+        
+        if self.pre_state_string == None:
+            raise ValueError("pre_state must be set")
+        
+        if self.post_state_string == None:
+            raise ValueError("post_state must be set")
+        
+        if self.dialog_string == None:
+            raise ValueError("dialog must be set")
+        
+        if dialog == []:
+            dialog = [self.partner_bitwise, self.pre_state_string, self.condition_tuples, self.dialog_string, self.post_state_string, self.consequence_tuples]
+
+        self.partner_bitwise = None
+        self.pre_state_string = None
+        self.condition_tuples = []
+        self.dialog_string = ""
+        self.post_state_string = None
+        self.consequence_tuples = []
+
+        self.dialogs.append(dialog)
+
+        return self
+
+    def build(self):
+        """
+        Build the dialog and return it.
+
+        Returns:
+            tuple: The dialog.
+
+        Examples:
+            >>> DialogBuilder().build()
+        """
+        return (self.partner_bitwise, self.pre_state_string, self.condition_tuples, self.dialog_string, self.post_state_string, self.consequence_tuples)
+    
+    def done(self):
+        """
+        Return the list of dialogs and reset the builder.
+
+        Returns:
+            list: The list of dialogs.
+
+        Examples:
+            >>> DialogBuilder().done()
+        """
+        if self.dialogs == []:
+            self.append()
+
+        dialogs = self.dialogs
+        self.dialogs = []
+        return dialogs
 
     def partner(self, partner):
         """
         Set the partner for the dialog.
 
         Args:
-            partner (Union[str, list]): The partner for the dialog. Can be a string or a list of strings.
+            partner (Union[int, list]): The partner for the dialog. Can be a string or a list of strings.
 
         Returns:
             DialogBuilder: The builder object.
@@ -34,13 +121,14 @@ class DialogBuilder:
         Examples:
             >>> DialogBuilder().partner([anyone, plyr])
         """
-        if type(partner) == str:
-            partner = [partner]
+        self.partner_bitwise = partner
 
-        self.partner_bitwise = reduce(or_, partner)
+        if type(partner) == list:
+            self.partner_bitwise = reduce(or_, partner)
+
         return self
         
-    def pre_state(self, prestate):
+    def pre_state(self, prestate, on_reply = False):
         """
         Set the pre-state for the dialog.
         
@@ -54,6 +142,10 @@ class DialogBuilder:
             >>> DialogBuilder().pre_state("start")
         """
         self.pre_state_string = prestate
+
+        if on_reply:
+            self.pre_state_reply_string = prestate
+
         return self
     
     def condition(self, condition):
@@ -152,32 +244,89 @@ class DialogBuilder:
             raise ValueError("consequence must be a list")
         
         self.consequence_tuples = consequence
-        return self.build()
+        return self.append()
     
-    def build(self):
+    def end(self):
         """
-        Build the dialog.
+        Mark the end of a dialog. Useful for readability when chaining multiple dialogs together
+        so you can see where one ends and the next one begins.
 
         Returns:
-            list: The dialog.
+            DialogBuilder: The builder object.
 
-        Raises:
-            ValueError: If the partner is not set.
-            ValueError: If the pre-state is not set.
-            ValueError: If the post-state is not set.
-            ValueError: If the dialog is not set.
+        Examples:
+            >>> DialogBuilder().end()
         """
-        if self.partner_bitwise is None:
-            raise ValueError("partner not set")
+        return self
+    
+    def start(self):
+        """
+        Start a new dialog. Useful for readability when chaining multiple dialogs together
+        so you can see where one ends and the next one begins.
+
+        Returns:
+            DialogBuilder: The builder object.
+
+        Examples:
+            >>> DialogBuilder().start_new()
+        """
+        return self
+
+    def replies_start(self, prestate = ""):
+        """
+        Create a reply for the last dialog you created or passed prestate and poststate.
+        Useful for readability when chaining multiple replies in a parent dialog.
+
+        Args:
+            prestate (str): The pre-state for the dialog.
+    
+        Returns:
+            DialogBuilder: The builder object.
+
+        Examples:
+            >>> DialogBuilder().replies_start("start")
+        """
+        self.pre_state(prestate, True)
+
+        if prestate == "":
+            self.pre_state(self.dialogs[-1][4], True)
+
+        return self
+    
+    def reply(self, text, poststate = "", append = True):
+        """
+        Create a reply for the last dialog you created or passed poststate.
+        Useful for readability when chaining multiple replies in a parent dialog.
+
+        Args:
+            text (str): The dialog text for the dialog.
+            poststate (str): The post-state for the dialog.
+
+        Returns:
+            DialogBuilder: The builder object.
+
+        Examples:
+            >>> DialogBuilder().reply("I am {playername}.", "close_window")
+        """
+        self.partner([anyone, plyr])
+        self.pre_state(self.pre_state_reply_string)
+        self.talk(text)
+        self.post_state(poststate)
         
-        if self.pre_state_string is None:
-            raise ValueError("pre_state not set")
-        
-        if self.post_state_string is None:
-            raise ValueError("post_state not set")
-        
-        if self.dialog_string is None or self.dialog_string == "":
-            raise ValueError("dialog not set")
-        
-        return [self.partner_bitwise, self.pre_state_string, self.condition_tuples, self.dialog_string, self.post_state_string, self.consequence_tuples]
+        if append:
+            self.append()
+
+        return self
+    
+    def replies_end(self):
+        """
+        Mark the end of a dialog replies. Useful for readability when chaining multiple reply in a parent dialog.
+
+        Returns:
+            DialogBuilder: The builder object.
+
+        Examples:
+            >>> DialogBuilder().replies_end()
+        """
+        return self
     
