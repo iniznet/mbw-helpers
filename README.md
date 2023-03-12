@@ -103,3 +103,15 @@ Not all of the todos are going to be worked on, most of them are just ideas. I w
 - [ ] Trigger builder
 - [ ] Troop builder
 - [ ] Variable builder
+
+## Frequently Asked Questions
+
+### How to use this?
+You can use this by importing the module you want to use to your project and use it right away based on the example above.
+For example, if you want to use the dialog builder, you can import it like this:
+
+```python
+from DialogBuilder import DialogBuilder
+```
+
+or just see [mbw-wreck-native-py3](https://github.com/iniznet/mbw-wreck-native-py3) for live example.
