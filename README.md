@@ -79,7 +79,7 @@ Not all of the todos are going to be worked on, most of them are just ideas. I w
 - [ ] Faction builder*
 - [ ] Game Menu builder
 - [ ] Info Page builder
-- [ ] Item builder*
+- [ ] Item builder* (In progress)
 - [ ] Map Icon builder
 - [ ] Mesh builder
 - [ ] Mission Template builder
@@ -89,11 +89,11 @@ Not all of the todos are going to be worked on, most of them are just ideas. I w
 - [ ] Party Template builder*
 - [ ] Postfx builder
 - [ ] Presentation builder
-- [ ] Quest builder
+- [ ] Quest builder* (In progress)
 - [ ] Scene Prop builder
 - [ ] Scene builder
-- [ ] Script builder*
-- [ ] Simple Trigger builder
+- [ ] Script builder* (In progress)
+- [ ] Simple Trigger builder*
 - [ ] Skill builder
 - [ ] Skin builder
 - [ ] Sound builder
