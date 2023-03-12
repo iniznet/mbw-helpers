@@ -74,7 +74,7 @@ dialogs.extend( # append [[dialog], [dialog], [dialog]...] from .done() to the d
 Not all of the todos are going to be worked on, most of them are just ideas. I will only work on the ones that I need for my mod or important ones. If you want to help, feel free to make a pull request.
 
 - [x] Dialog builder*
-- [ ] Tuple Operation builder* (In progress)
+- [x] Tuple Operator builder* (Untested! There's 1054 operations and I only tested some of them. Please report any bugs if you found any.)
 - [ ] Animation builder
 - [ ] Faction builder*
 - [ ] Game Menu builder
