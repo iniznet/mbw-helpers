@@ -15,12 +15,21 @@ dialogs = [
     DialogBuilder()
         .partner(anyone) # or .partner([anyone, plyr]) if you want to make a player response/choice
         .pre_state("start") # or .state("start", "lord_start") to set the pre_state and post_state
-        .condition([
+        .condition(
+        [
             (troop_slot_eq,"$g_talk_troop",slot_troop_occupation, slto_kingdom_hero),
             (eq, "$g_talk_troop_met", 0),
             (ge, "$g_talk_troop_faction_relation", 0),
             (le,"$talk_context",tc_siege_commander),
-        ])
+        ]
+        # or using operator builder, you don't need to declare list [] (square brackets)
+        OperatorBuilder()
+            .troop_slot_eq("$g_talk_troop", slot_troop_occupation, slto_kingdom_hero)
+            .eq("$g_talk_troop_met", 0)
+            .ge("$g_talk_troop_faction_relation", 0)
+            .le("$talk_context", tc_siege_commander)
+            .done(),
+        )
         .dialog("Do I know you?")
         .post_state("lord_meet_neutral") # if you don't pass the post_state it will automatically set it to "close_window"
         .build() # you don't need to call .condition() or .consequence() if your dialog doesn't have any, they automatically return an empty list
@@ -46,12 +55,14 @@ dialogs.extend( # append [[dialog], [dialog], [dialog]...] from .done() to the d
         .start() # optional, it only used to make the code more readable and doesn't do anything
             .partner(anyone)
             .state("start", "lord_start")
-            .condition([
-                (troop_slot_eq,"$g_talk_troop",slot_troop_occupation, slto_kingdom_hero),
-                (eq, "$g_talk_troop_met", 0),
-                (ge, "$g_talk_troop_faction_relation", 0),
-                (le,"$talk_context",tc_siege_commander),
-            ])
+            .condition(
+                OperatorBuilder()
+                    .troop_slot_eq("$g_talk_troop", slot_troop_occupation, slto_kingdom_hero)
+                    .eq("$g_talk_troop_met", 0)
+                    .ge("$g_talk_troop_faction_relation", 0)
+                    .le("$talk_context", tc_siege_commander)
+                    .done()
+            )
             .dialog("Do I know you?")
             .append() # append to list of dialogs property/variable within the builder itself
             # start building player responses
